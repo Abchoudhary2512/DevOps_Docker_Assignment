@@ -1,0 +1,5 @@
+1. To create a Docker container that runs a simple web application, demonstrating how to build, run, and manage Docker containers.
+
+
+2. 
+To create a Jenkins pipeline that automates the build and testing of a simple web application.
