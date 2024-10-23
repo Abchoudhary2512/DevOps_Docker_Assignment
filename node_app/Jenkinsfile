@@ -1,0 +1,48 @@
+pipeline {
+    agent any  // This specifies the node/agent where the pipeline will run
+
+    stages {
+        stage('Clone Repository') {
+            steps {
+                // Fetch the code from a GitHub repository (or any other SCM)
+                git 'https://github.com/Abchoudhary2512/DevOps_Docker_Assignment'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    // Build a Docker image from the Dockerfile
+                    dockerImage = docker.build("node_app")
+                }
+            }
+        }
+
+        stage('Run Unit Tests') {
+            steps {
+                // This is an optional step where you could run tests
+                // Add test commands here, e.g., if using Mocha, Jest, etc.
+                echo 'Running tests...'
+            }
+        }
+
+        stage('Run Application') {
+            steps {
+                script {
+                    // Run the Docker container based on the built image
+                    dockerImage.run("-p 3000:3000")
+                }
+            }
+        }
+
+        stage('Cleanup') {
+            steps {
+                script {
+                    // Clean up unused containers/images to save space
+                    sh 'docker container prune -f'
+                    sh 'docker image prune -f'
+                }
+            }
+        }
+    }
+}
